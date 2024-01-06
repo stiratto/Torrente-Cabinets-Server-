@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Dealer" ALTER COLUMN "userId" DROP DEFAULT;
