@@ -123,7 +123,6 @@ const getProductDetails = async (req, res) => {
       res.status(404).send("Product not found");
       return;
     }
-    console.log(product.product_image);
 
     const encodedKey = encodeURIComponent(product.product_image);
 
