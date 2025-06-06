@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const salt = bcrypt.genSaltSync(10);
 
 const register = async (req, res) => {
-  const { name, password, confirm_password } = req.body;
+  const { name, password } = req.body;
   const existingUser = await prisma.user.findFirst({
     where: { name: name },
   });

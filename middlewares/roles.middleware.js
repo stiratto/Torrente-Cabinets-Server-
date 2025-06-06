@@ -35,6 +35,7 @@ const validate = (authorization, user, res) => {
 
 export const rolesMiddleware = (authorization) => {
    return (req, res, next) => {
+      console.log("asdasda")
       const token = extractToken(req, res)
       if (!token) return
       const key = process.env.JWT_SECRET;
@@ -44,6 +45,7 @@ export const rolesMiddleware = (authorization) => {
          if (!valid) return
          next()
       } catch(err) {
+         console.log(err)
          return res.status(403).send("Invalid token")
       }
    }

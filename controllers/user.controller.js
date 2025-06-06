@@ -33,7 +33,7 @@ const dealerForm = async (req, res) => {
         userId,
       },
       include: {
-        user: true, // Esto accede al campo de relación "user" en Dealer
+        user: true,
       },
     });
     res.send(result);
@@ -42,43 +42,6 @@ const dealerForm = async (req, res) => {
   }
 };
 
-const acceptRequest = async (req, res) => {
-  const { userId, id } = req.body;
-  const result = await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      role: "DEALER",
-    },
-  });
 
-  if (result) {
-    await prisma.dealer.delete({
-      where: {
-        id: id,
-      },
-    });
-  }
-};
-const denieRequest = async (req, res) => {
-  const { id } = req.body;
-  const result = await prisma.dealer.delete({
-    where: {
-      id: id,
-    },
-  });
 
-  res.send(result);
-};
-
-const getDealerRequests = async (req, res) => {
-  const result = await prisma.dealer.findMany({
-    orderBy: {
-      id: "desc",
-    },
-  });
-  res.send(result);
-};
-
-module.exports = { dealerForm, acceptRequest, denieRequest, getDealerRequests };
+module.exports = { dealerForm };
