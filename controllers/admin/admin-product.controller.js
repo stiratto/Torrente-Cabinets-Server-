@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
-import prisma from "../../db.js"
+import {prisma} from "../../db.js"
 import crypto from "crypto"
 import dotenv from "dotenv"
 dotenv.config();
@@ -42,7 +42,7 @@ export const addProduct = async (req, res) => {
       product_name: req.body.product_name,
       product_price: parseFloat(req.body.product_price),
       product_description: req.body.product_description,
-      product_quantity: parseInt(req.body.product_quantity),
+      product_stock: parseInt(req.body.product_quantity),
       product_image: imageName,
     },
   });

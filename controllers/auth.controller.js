@@ -1,6 +1,6 @@
-const prisma = require("../db");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import { prisma } from "../db.js";
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -63,4 +63,7 @@ const login = async (req, res) => {
   res.json(token);
 };
 
-module.exports = { register, login };
+export {
+  register,
+  login
+}

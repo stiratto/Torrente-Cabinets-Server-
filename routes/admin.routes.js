@@ -1,11 +1,10 @@
-const { Router } = require("express");
-const multer = require("multer");
+import { Router } from "express"
+import multer from "multer"
+import { addProduct, deleteProduct } from "../controllers/admin/admin-product.controller.js";
+import { acceptRequest, denieRequest, getDealerRequests } from "../controllers/admin/admin-dealer.controller.js";
+import { getAdmins, getRegisteredUsers, getRegisteredUsersByRole, getSpecificId, pagination } from "../controllers/admin/admin-user.controller.js";
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-const { addProduct, deleteProduct } = require("../controllers/admin/admin-product.controller");
-const { getDealerRequests, acceptRequest, denieRequest } = require("../controllers/admin/admin-dealer.controller");
-const { getRegisteredUsers, getRegisteredUsersByRole, getAdmins, pagination, getSpecificId } = require("../controllers/admin/admin-user.controller");
-
 
 const router = Router();
 
@@ -26,6 +25,4 @@ router.get("/user/getSpecificId/:id", getSpecificId);
 
 
 
-
-module.exports = router;
-
+export default router

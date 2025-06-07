@@ -1,12 +1,8 @@
-const prisma = require("../db");
-const crypto = require("crypto");
-const {
-  S3Client,
-  GetObjectCommand,
-} = require("@aws-sdk/client-s3");
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-
-const dotenv = require("dotenv");
+import {prisma} from "../db.js"
+import crypto from "crypto"
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import dotenv from "dotenv"
 
 dotenv.config();
 
@@ -85,16 +81,18 @@ const getProductDetails = async (req, res) => {
 
     const command = new GetObjectCommand(getObjectParams);
     const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    product.product_image = url
 
-    res.status(200).send({ url });
+    consol.log(product)
+    res.status(200).send(product);
   } catch (error) {
     console.error(`Error fetching imageUrl for product ${productId}:`, error);
     res.status(500).send("Internal Server Error");
   }
 };
 
-module.exports = {
+export {
   getProducts,
   getCartProducts,
-  getProductDetails,
-};
+  getProductDetails
+}

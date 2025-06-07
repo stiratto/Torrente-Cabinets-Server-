@@ -1,13 +1,13 @@
-const express = require("express");
+import express from "express"
 // import express from "express"
-const cors = require("cors");
-const morgan = require("morgan");
-const app = express();
-const userRoutes = require("./routes/user.routes");
-const productRoutes = require("./routes/product.routes");
-const adminRoutes = require("./routes/admin.routes");
-const { rolesMiddleware } = require("./middlewares/roles.middleware");
+import cors from "cors"
+import morgan from "morgan"
+import userRoutes from "./routes/user.routes.js"
+import productRoutes from "./routes/product.routes.js"
+import adminRoutes from "./routes/admin.routes.js"
+import { rolesMiddleware } from "./middlewares/roles.middleware.js";
 
+const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());

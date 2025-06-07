@@ -1,4 +1,4 @@
-const prisma = require("../db");
+import {prisma} from "../db.js"
 
 const dealerForm = async (req, res) => {
   const {
@@ -43,5 +43,6 @@ const dealerForm = async (req, res) => {
 };
 
 
-
-module.exports = { dealerForm };
+export {
+  dealerForm
+}

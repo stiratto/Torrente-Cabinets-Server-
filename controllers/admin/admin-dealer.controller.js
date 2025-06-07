@@ -1,4 +1,4 @@
-import prisma from "../../db.js"
+import {prisma} from "../../db.js"
 const acceptRequest = async (req, res) => {
   const { userId, id } = req.body;
   const result = await prisma.user.update({
