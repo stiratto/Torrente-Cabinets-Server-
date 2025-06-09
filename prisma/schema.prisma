@@ -1,10 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-1.1.x"]
-
 }
 
 datasource db {
@@ -13,7 +9,6 @@ datasource db {
 }
 
 model Dealer {
-  id                  Int    @id @default(autoincrement())
   name                String
   company_email       String @unique
   companyvendor_name  String
@@ -22,6 +17,7 @@ model Dealer {
   phone_number        String
   personal_email      String
   company_description String
+  id                  Int    @id @default(autoincrement())
   userId              Int
   user                User   @relation(fields: [userId], references: [id])
 }
@@ -31,8 +27,8 @@ model User {
   name             String
   password         String
   confirm_password String
-  registrationDate DateTime @default(now())
   role             ROLE     @default(VISITOR)
+  registrationDate DateTime @default(now())
   Dealer           Dealer[]
 }
 
@@ -40,9 +36,9 @@ model Product {
   id                  Int    @id @default(autoincrement())
   product_name        String
   product_description String
-  product_stock       Int
-  product_price       Float
   product_image       String
+  product_price       Float
+  product_stock       Int
 }
 
 enum ROLE {

@@ -1,4 +1,4 @@
-import {prisma} from "../db.js"
+import { prisma } from "../db.js"
 import crypto from "crypto"
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -36,8 +36,8 @@ const getProducts = async (req, res) => {
       Key: product.product_image,
     };
     const command = new GetObjectCommand(getObjectParams);
-    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
-    product.imageUrl = url;
+    const url = await getSignedUrl(s3, command);
+    product.product_image = url;
   }
 
   res.send(products);
@@ -80,10 +80,9 @@ const getProductDetails = async (req, res) => {
     };
 
     const command = new GetObjectCommand(getObjectParams);
-    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    const url = await getSignedUrl(s3, command);
     product.product_image = url
 
-    consol.log(product)
     res.status(200).send(product);
   } catch (error) {
     console.error(`Error fetching imageUrl for product ${productId}:`, error);

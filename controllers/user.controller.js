@@ -32,13 +32,11 @@ const dealerForm = async (req, res) => {
         company_description,
         userId,
       },
-      include: {
-        user: true,
-      },
+      
     });
     res.send(result);
   } else {
-    return res.status(400).send("Email already exists, couldn't send request");
+    return res.status(400).send("Email already exists");
   }
 };
 
