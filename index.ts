@@ -1,5 +1,4 @@
 import express from "express"
-// import express from "express"
 import cors from "cors"
 import morgan from "morgan"
 import userRoutes from "./routes/user.routes.js"
@@ -18,13 +17,6 @@ app.use('/admin', rolesMiddleware("admin"), adminRoutes)
 app.use('/user', userRoutes);
 
 app.use('/product', productRoutes);
-
-
-if (process.env.RENDER) {
-  console.log("Using Node version for Render:", process.version);
-} else {
-  console.log("Using Node version for local development:", process.version);
-}
 
 app.listen(process.env.LISTEN_PORT, () => {
   console.log(`Server running on port: ${process.env.LISTEN_PORT}`);
