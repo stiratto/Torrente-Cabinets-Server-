@@ -1,75 +1,40 @@
-import { prisma } from "../db.js"
-import {Request, Response} from "express"
-import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { BucketController } from "./bucket.controller.js";
+import { Request, Response } from "express";
+import { ProductService } from "../services/product.service.js";
 
 export class ProductController {
-  private bucketController: BucketController;
+  private productService: ProductService;
 
   constructor() {
-    this.bucketController = new BucketController()
+    this.productService = new ProductService();
   }
 
   getProducts = async (req: Request, res: Response) => {
-    const products = await prisma.product.findMany({
-      orderBy: {
-        id: "desc",
-      },
-    });
-
-    const populatedProducts = await this.bucketController.populateProductsWithImages(products)
-
-    res.send(populatedProducts);
+    // throw new Error('asd')
+    try {
+      const result = await this.productService.getProducts(req, res);
+      res.status(200).send(result);
+    }catch(err: any) {
+      res.status(400).send(err.message)
+      throw new Error(`Failed to fetch all products: ${err.message}`)
+    }
+  
   };
-
-
 
   getCartProducts = async (req: Request, res: Response) => {
-    const productId = parseInt(req.params.id, 10);
-
-    const result = await prisma.product.findMany({
-      where: {
-        id: productId,
-      },
-    });
-
-    res.send(result);
-  };
-
-  getProductDetails  = async (req: Request, res: Response) => {
-    const productId = parseInt(req.params.id, 10);
-
     try {
-      const product = await prisma.product.findUnique({
-        where: {
-          id: productId,
-        },
-      });
-
-      if (!product) {
-        res.status(404).send("Product not found");
-        return;
-      }
-
-      const encodedKey = encodeURIComponent(product.product_image);
-
-      const getObjectParams = {
-        Bucket: bucketName,
-        Key: encodedKey,
-      };
-
-      const command = new GetObjectCommand(getObjectParams);
-      const url = await getSignedUrl(s3, command);
-      product.product_image = url
-
-      res.status(200).send(product);
-    } catch (error) {
-      console.error(`Error fetching imageUrl for product ${productId}:`, error);
-      res.status(500).send("Internal Server Error");
+      const result = await this.productService.getCartProducts(req, res);
+      res.status(200).send(result);
+    } catch (err: any) {
+      res.status(400).send(err.message);
     }
   };
 
-
+  getProductDetails = async (req: Request, res: Response) => {
+    try {
+      const result = await this.productService.getProductDetails(req, res);
+      res.status(200).send(result);
+    } catch (err: any) {
+      res.status(400).send(err.message);
+    }
+  };
 }
-

@@ -1,57 +1,24 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
-import {prisma} from "../../db.js"
-import crypto from "crypto"
-import { BucketController } from "../bucket.controller.js";
-import {Request, Response} from "express"
-import { randomImageName } from "../../lib/utils.js";
+import { Request, Response } from "express"
+import { AdminProductService } from "../../services/admin-product.service.js";
 
 
 
 export class AdminProductController {
-
-  private bucketController: BucketController;
+  private adminProductService: AdminProductService;
 
   constructor() {
-    this.bucketController = new BucketController()
+    this.adminProductService = new AdminProductService()
   }
 
   addProduct = async (req: Request, res: Response) => {
-    const imageName = randomImageName();
-
-    this.bucketController.addItem(imageName, req.file!)
-    
-    
-    const product = await prisma.product.create({
-      data: {
-        product_name: req.body.product_name,
-        product_price: parseFloat(req.body.product_price),
-        product_description: req.body.product_description,
-        product_stock: parseInt(req.body.product_quantity),
-        product_image: imageName,
-      },
-    });
-    res.send(product);
+    const result = await this.adminProductService.addProduct(req, res)
+    res.send(result)
   };
 
   deleteProduct = async (req: Request, res: Response) => {
-    const id = +req.params.id;
-    const product = await prisma.product.findFirst({
-      where: {
-        id,
-      },
-    });
-
-    if (!product) {
-      res.status(404).send("Post not found");
-      return;
-    }
-
-    this.bucketController.deleteItem(product.product_image)
-    await prisma.product.delete({ where: { id } });
-    res.send(product);
+    const result = await this.adminProductService.deleteProduct(req, res)    
+    res.send(result)
   };
-
-    
 }
 
 
