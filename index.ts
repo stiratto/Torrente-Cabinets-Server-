@@ -5,7 +5,7 @@ import userRoutes from "./routes/user.routes.js"
 import productRoutes from "./routes/product.routes.js"
 import adminRoutes from "./routes/admin.routes.js"
 import { rolesMiddleware } from "./middlewares/roles.middleware.js";
-import {pino} from "pino"
+import { pino } from "pino"
 import authRoutes from "./routes/auth.routes.js"
 
 const logger = pino()
@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use('/admin', rolesMiddleware("admin"), adminRoutes)
+
 app.use('/auth', authRoutes)
 
 app.use('/user', userRoutes);
