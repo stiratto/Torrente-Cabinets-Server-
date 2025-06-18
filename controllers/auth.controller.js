@@ -1,69 +1,42 @@
-import { prisma } from "../db.js";
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
-
-const salt = bcrypt.genSaltSync(10);
-
-const register = async (req, res) => {
-  const { name, password } = req.body;
-  const existingUser = await prisma.user.findFirst({
-    where: { name: name },
-  });
-  const hashedPassword = bcrypt.hashSync(password, salt);
-  if (existingUser) {
-    return res
-      .status(400)
-      .json({ error: "El nombre de usuario ya está en uso." });
-  }
-
-  const registrationDate = new Date();
-  const result = await prisma.user.create({
-    data: {
-      name,
-      password: hashedPassword,
-      confirm_password: hashedPassword,
-      registrationDate: registrationDate,
-    },
-  });
-
-  return res.status(200).send(result);
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-
-const login = async (req, res) => {
-  const { name, password } = req.body;
-
-  const validUser = await prisma.user.findFirst({
-    where: {
-      name, // Use the name to locate the user
-    },
-  });
-
-  if (!validUser) {
-    return res.status(400).send("Invalid username or password");
-  }
-
-  const validPassword = bcrypt.compareSync(password, validUser.password);
-
-  if (!validPassword) {
-    return res.status(400).send("Invalid password");
-  }
-
-  const token = jwt.sign(
-    {
-      id: validUser.id,
-      name: validUser.name,
-      role: validUser.role,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: 3600,
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthController = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const auth_service_js_1 = require("../services/auth.service.js");
+const salt = bcrypt_1.default.genSaltSync(10);
+class AuthController {
+    constructor(authService = new auth_service_js_1.AuthService()) {
+        this.authService = authService;
+        this.register = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.authService.register(req, res);
+                res.status(200).send(result);
+            }
+            catch (err) {
+                res.status(400).send(err.message);
+            }
+        });
+        this.login = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.authService.login(req, res);
+                res.status(200).send(result);
+            }
+            catch (err) {
+                res.status(400).send(err.message);
+            }
+        });
     }
-  );
-
-  res.json(token);
-};
-
-export {
-  register,
-  login
 }
+exports.AuthController = AuthController;

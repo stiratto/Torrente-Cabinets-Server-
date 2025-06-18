@@ -9,38 +9,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AdminDealerController = void 0;
-const admin_dealer_service_js_1 = require("../../services/admin-dealer.service.js");
-class AdminDealerController {
-    constructor(adminDealerService = new admin_dealer_service_js_1.AdminDealerService()) {
-        this.adminDealerService = adminDealerService;
-        this.acceptRequest = (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.ProductController = void 0;
+const product_service_js_1 = require("../services/product.service.js");
+class ProductController {
+    constructor() {
+        this.getProducts = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            // throw new Error('asd')
             try {
-                const result = yield this.adminDealerService.acceptRequest(req, res);
+                const result = yield this.productService.getProducts(req, res);
+                res.status(200).send(result);
+            }
+            catch (err) {
+                res.status(400).send(err.message);
+                throw new Error(`Failed to fetch all products: ${err.message}`);
+            }
+        });
+        this.getCartProducts = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.productService.getCartProducts(req, res);
                 res.status(200).send(result);
             }
             catch (err) {
                 res.status(400).send(err.message);
             }
         });
-        this.denieRequest = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.getProductDetails = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.adminDealerService.denieRequest(req, res);
+                const result = yield this.productService.getProductDetails(req, res);
                 res.status(200).send(result);
             }
             catch (err) {
                 res.status(400).send(err.message);
             }
         });
-        this.getDealerRequests = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield this.adminDealerService.getDealerRequests(req, res);
-                res.status(200).send(result);
-            }
-            catch (err) {
-                res.status(400).send(err.message);
-            }
-        });
+        this.productService = new product_service_js_1.ProductService();
     }
 }
-exports.AdminDealerController = AdminDealerController;
+exports.ProductController = ProductController;

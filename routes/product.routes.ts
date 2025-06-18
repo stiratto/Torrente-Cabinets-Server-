@@ -13,7 +13,7 @@ class ProductRoutes {
 
    private routes() {
       this.router.get('/getProducts', this.productController.getProducts)
-      this.router.get('/getCartProducts/:id', this.productController.getCartProducts)
+      this.router.post('/getCartProducts/', this.productController.getCartProducts)
       this.router.get('/getProductDetails/:id', this.productController.getProductDetails)
    }
 

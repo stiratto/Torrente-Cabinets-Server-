@@ -9,20 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
-const user_service_js_1 = require("../services/user.service.js");
-class UserController {
-    constructor(userService = new user_service_js_1.UserService()) {
-        this.userService = userService;
-        this.dealerForm = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield this.userService.dealerForm(req, res);
-                res.status(200).send(result);
-            }
-            catch (err) {
-                res.send(400).send(err.message);
-            }
+exports.AdminProductController = void 0;
+const admin_product_service_js_1 = require("../../services/admin-product.service.js");
+class AdminProductController {
+    constructor() {
+        this.addProduct = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.adminProductService.addProduct(req, res);
+            res.send(result);
         });
+        this.deleteProduct = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.adminProductService.deleteProduct(req, res);
+            res.send(result);
+        });
+        this.adminProductService = new admin_product_service_js_1.AdminProductService();
     }
 }
-exports.UserController = UserController;
+exports.AdminProductController = AdminProductController;
