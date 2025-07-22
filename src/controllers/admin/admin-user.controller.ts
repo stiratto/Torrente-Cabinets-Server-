@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
-import {prisma} from "../../db.js"
-import { ROLE } from "@prisma/client";
 import { AdminUserService } from "../../services/admin-user.service.js";
 
 export class AdminUserController {
   // Denie request controller
-  constructor(private adminUserService = new AdminUserService()) {}
+  constructor(private adminUserService = new AdminUserService()) { }
 
   pagination = async (req: Request, res: Response) => {
     const result = await this.adminUserService.pagination(req, res)
@@ -16,9 +14,9 @@ export class AdminUserController {
     const result = await this.adminUserService.getRegisteredUsers(req, res)
     res.status(200).send(result)
   };
-  
+
   getRegisteredUsersByRole = async (req: Request, res: Response) => {
-    const result = await this.adminUserService.getRegisteredUsersByRole(req, res) 
+    const result = await this.adminUserService.getRegisteredUsersByRole(req, res)
     res.status(200).send(result)
   };
 

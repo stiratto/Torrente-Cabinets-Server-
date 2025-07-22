@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prisma } from "../db";
+import { prisma } from "@/db";
 import { ROLE } from "@prisma/client";
 
 export class AdminUserService {
@@ -75,9 +75,9 @@ export class AdminUserService {
       });
 
       return result
-    }catch(err: any) {
+    } catch (err: any) {
       throw new Error(`Failed to fetch all admins: ${err.message}`)
     }
- 
+
   };
 }

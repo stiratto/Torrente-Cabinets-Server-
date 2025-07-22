@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { AdminDealerService } from "../../services/admin-dealer.service.js";
+import { AdminDealerService } from "@/services/admin-dealer.service";
 
 export class AdminDealerController {
   constructor(
     private adminDealerService: AdminDealerService = new AdminDealerService()
-  ) {}
+  ) { }
 
   acceptRequest = async (req: Request, res: Response) => {
     try {

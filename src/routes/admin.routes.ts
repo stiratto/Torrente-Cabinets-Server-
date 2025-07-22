@@ -1,8 +1,8 @@
 import { Router } from "express"
 import multer from "multer"
-import { AdminProductController } from "../controllers/admin/admin-product.controller.js";
-import { AdminDealerController } from "../controllers/admin/admin-dealer.controller.js";
-import { AdminUserController } from "../controllers/admin/admin-user.controller.js";
+import { AdminProductController } from "../controllers/admin/admin-product.controller";
+import { AdminDealerController } from "../controllers/admin/admin-dealer.controller";
+import { AdminUserController } from "../controllers/admin/admin-user.controller";
 
 class AdminRoutes {
    private router: Router;
@@ -16,7 +16,7 @@ class AdminRoutes {
       this.adminProductController = new AdminProductController()
       this.adminDealerController = new AdminDealerController()
       this.adminUserController = new AdminUserController()
-      this.upload = multer({storage: multer.memoryStorage() })
+      this.upload = multer({ storage: multer.memoryStorage() })
 
       this.routes()
    }

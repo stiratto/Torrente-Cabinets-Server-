@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { prisma } from "../db";
-import { BucketController } from "../controllers/bucket.controller";
+import { prisma } from "@/db";
+import { BucketController } from "@/controllers/bucket.controller";
 import { Product } from "@prisma/client";
 
 export class ProductService {
-  constructor(private bucketController = new BucketController()) {}
+  constructor(private bucketController = new BucketController()) { }
 
   /**
    * Returns all products with images URL included
@@ -30,7 +30,7 @@ export class ProductService {
     req: Request,
     res: Response
   ): Promise<Product[] | undefined> => {
-    const {productsIds} = req.body.data
+    const { productsIds } = req.body.data
     console.log(productsIds, typeof productsIds)
 
     const result = await prisma.product.findMany({
@@ -41,7 +41,7 @@ export class ProductService {
       }
     })
 
-    
+
     if (!result) {
       throw new Error("Couldn't find products with those id's")
     }

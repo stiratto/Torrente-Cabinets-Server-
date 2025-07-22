@@ -8,7 +8,7 @@ export class BucketController {
    private bucketRegion: string;
    private accessKey: string
    private secretAccessKey: string
-   
+
 
    constructor() {
       // inject dependencies
@@ -18,11 +18,11 @@ export class BucketController {
       this.secretAccessKey = process.env.SECRET_ACCESS_KEY!;
 
       this.s3 = new S3Client({
-        credentials: {
-           accessKeyId: this.accessKey,
-           secretAccessKey: this.secretAccessKey,
-        },
-        region: this.bucketRegion,
+         credentials: {
+            accessKeyId: this.accessKey,
+            secretAccessKey: this.secretAccessKey,
+         },
+         region: this.bucketRegion,
       })
    }
 
@@ -51,13 +51,13 @@ export class BucketController {
             ContentType: file.mimetype,
          };
          const command = new PutObjectCommand(params);
-                                                       
+
          await this.s3.send(command);
-      }catch(err: any){
+      } catch (err: any) {
          throw new Error(err)
       }
    }
-      
+
    async deleteItem(key: string) {
       try {
          const params = {
@@ -66,9 +66,9 @@ export class BucketController {
          };
          const command = new DeleteObjectCommand(params);
          await this.s3.send(command);
-      } catch(err: any) {
+      } catch (err: any) {
          throw new Error(err)
       }
-   }      
+   }
 
 }

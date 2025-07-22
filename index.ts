@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, Response } from "express"
 import cors from "cors"
 import morgan from "morgan"
-import userRoutes from "./routes/user.routes.js"
-import productRoutes from "./routes/product.routes.js"
-import adminRoutes from "./routes/admin.routes.js"
-import { rolesMiddleware } from "./middlewares/roles.middleware.js";
+import userRoutes from "@/routes/user.routes"
+import productRoutes from "@/routes/product.routes"
+import adminRoutes from "@/routes/admin.routes"
+import { rolesMiddleware } from "@/middlewares/roles.middleware";
 import { pino } from "pino"
-import authRoutes from "./routes/auth.routes.js"
+import authRoutes from "@/routes/auth.routes.js"
 
 const logger = pino()
 const app = express();

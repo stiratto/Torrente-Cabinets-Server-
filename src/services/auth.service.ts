@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { prisma } from "../db";
+import { prisma } from "@/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { SALT } from "../lib/utils";
+import { SALT } from "@/lib/utils";
 import { User } from "@prisma/client";
 
 export class AuthService {

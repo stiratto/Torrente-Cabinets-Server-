@@ -2,10 +2,9 @@ import bcrypt from "bcrypt";
 import { AuthService } from "../services/auth.service.js";
 import { Request, Response } from "express";
 
-const salt = bcrypt.genSaltSync(10);
 
 export class AuthController {
-  constructor(private authService: AuthService = new AuthService()) {}
+  constructor(private authService: AuthService = new AuthService()) { }
 
   register = async (req: Request, res: Response) => {
     try {
